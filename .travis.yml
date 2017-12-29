@@ -1,16 +1,15 @@
 language: rust
-env:
-  - BOILERPLATEAPP_DATABASE_URL=postgres://localhost/boilerplateapp
 services:
   - postgresql
 rust:
-  - nightly
+  - nightly-2017-12-21
 matrix:
   allow_failures:
     - rust: [stable, beta]
 before_script:
   - cargo install diesel_cli
+  - cp .env.example .env
   - ./reset.sh
 script:
-  - bash -c '[[ "TRAVIS_RUST_VERSION" == "nightly" ]] && cargo build --features "strict clippy" || cargo build'
+  - bash -c '[[ "TRAVIS_RUST_VERSION" == "nightly-2017-12-21" ]] && cargo build --features "strict clippy" || cargo build'
   - cargo test --verbose
